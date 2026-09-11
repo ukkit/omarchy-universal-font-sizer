@@ -51,6 +51,7 @@ Panel {
           spacing: Style.space(8)
 
           Text {
+            anchors.verticalCenter: parent.verticalCenter
             text: "🌐"
             color: root.bar.foreground
             font.family: root.bar.fontFamily
@@ -161,50 +162,42 @@ Panel {
 
         PanelSeparator { foreground: root.bar.foreground }
 
-        // Live preview: three sample sizes scaled by the same multipliers
-        // Style.qml uses for its real typography tokens (caption/body/
-        // heading), so dragging the slider shows exactly how the rest of
-        // the shell's text will move — not just this one number.
-        Column {
+        // Three sample sizes scaled by the same multipliers Style.qml uses
+        // for its real typography tokens (caption/body/heading). Each one
+        // spells out its own computed px value live, so dragging the
+        // slider shows exactly what every other font size in the shell
+        // will become — not just this one number, and not just a vague
+        // "preview" label.
+        Row {
           width: parent.width
-          spacing: Style.space(6)
+          spacing: Style.space(18)
 
-          Text {
-            text: "PREVIEW"
-            color: Qt.darker(root.bar.foreground, 1.4)
-            font.family: root.bar.fontFamily
-            font.pixelSize: Style.font.caption
-          }
+          Repeater {
+            model: [
+              { label: "caption", mult: 0.833 },
+              { label: "body", mult: 1.0 },
+              { label: "heading", mult: 1.333 }
+            ]
 
-          Row {
-            spacing: Style.space(18)
+            Column {
+              required property var modelData
+              readonly property int scaledSize: Math.max(1, Math.round(slider.liveValue * modelData.mult))
+              spacing: Style.space(2)
 
-            Repeater {
-              model: [
-                { label: "caption", mult: 0.833 },
-                { label: "body", mult: 1.0 },
-                { label: "heading", mult: 1.333 }
-              ]
+              Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Aa"
+                color: root.bar.foreground
+                font.family: root.bar.fontFamily
+                font.pixelSize: scaledSize
+              }
 
-              Column {
-                required property var modelData
-                spacing: Style.space(2)
-
-                Text {
-                  anchors.horizontalCenter: parent.horizontalCenter
-                  text: "Aa"
-                  color: root.bar.foreground
-                  font.family: root.bar.fontFamily
-                  font.pixelSize: Math.max(1, Math.round(slider.liveValue * modelData.mult))
-                }
-
-                Text {
-                  anchors.horizontalCenter: parent.horizontalCenter
-                  text: modelData.label
-                  color: Qt.darker(root.bar.foreground, 1.4)
-                  font.family: root.bar.fontFamily
-                  font.pixelSize: Style.font.caption
-                }
+              Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: modelData.label + " " + scaledSize + "px"
+                color: Qt.darker(root.bar.foreground, 1.4)
+                font.family: root.bar.fontFamily
+                font.pixelSize: Style.font.caption
               }
             }
           }
