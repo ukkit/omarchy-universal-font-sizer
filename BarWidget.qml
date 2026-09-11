@@ -81,7 +81,7 @@ BarWidget {
     id: button
     anchors.fill: parent
     bar: root.bar
-    text: "Aa " + root.displaySize
+    text: "Aa"
     tooltipText: "Text size: " + root.displaySize + "px · scroll to adjust, click for more"
     onPressed: function(b) { root.toggle() }
     onWheelMoved: function(delta) { root.nudge(delta > 0 ? 1 : -1) }

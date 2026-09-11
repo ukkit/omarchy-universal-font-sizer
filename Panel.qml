@@ -47,70 +47,107 @@ Panel {
 
         Row {
           width: parent.width
-          spacing: Style.space(12)
+          spacing: Style.space(8)
 
           Text {
             text: "Aa"
             color: root.bar.foreground
             font.family: root.bar.fontFamily
-            font.pixelSize: Style.font.display
+            font.pixelSize: Style.font.title
           }
 
-          Column {
+          Text {
             anchors.verticalCenter: parent.verticalCenter
-            spacing: Style.space(2)
+            text: "Bar Dial"
+            color: root.bar.foreground
+            font.family: root.bar.fontFamily
+            font.pixelSize: Style.font.title
+            font.bold: true
+          }
+        }
+
+        PanelSeparator { foreground: root.bar.foreground }
+
+        // Label + live value on the left, reset tucked on the right of the
+        // same row — one line instead of three separate ones.
+        Item {
+          width: parent.width
+          height: Math.max(sizeLabel.implicitHeight, resetButton.implicitHeight)
+
+          Row {
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: Style.space(6)
 
             Text {
-              text: "Bar Dial"
-              color: root.bar.foreground
-              font.family: root.bar.fontFamily
-              font.pixelSize: Style.font.title
-              font.bold: true
-            }
-
-            Text {
-              text: root.currentSize + "px"
+              id: sizeLabel
+              text: "TEXT SIZE"
               color: Qt.darker(root.bar.foreground, 1.4)
               font.family: root.bar.fontFamily
               font.pixelSize: Style.font.caption
             }
+
+            Text {
+              text: slider.liveValue + "px"
+              color: root.bar.foreground
+              font.family: root.bar.fontFamily
+              font.pixelSize: Style.font.bodySmall
+              font.bold: true
+            }
+          }
+
+          Button {
+            id: resetButton
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            text: "Reset"
+            fontSize: Style.font.caption
+            foreground: root.bar.foreground
+            fontFamily: root.bar.fontFamily
+            bordered: true
+            onClicked: if (root.bar) root.bar.run("omarchy display text size reset")
           }
         }
 
-        PanelSeparator { foreground: root.bar.foreground }
-        PanelSectionHeader { text: "TEXT SIZE"; foreground: root.bar.foreground; fontFamily: root.bar.fontFamily }
-
-        PanelSlider {
-          id: slider
-          bar: root.bar
+        Row {
           width: parent.width
-          integer: true
-          minimum: root.minSize
-          maximum: root.maxSize
-          step: 1
-          value: root.currentSize
-          onReleased: function(v) { if (root.hostWidget) root.hostWidget.apply(v) }
-        }
+          spacing: Style.space(6)
+          readonly property real sliderWidth: Math.max(0, width - minusButton.width - plusButton.width - spacing * 2)
 
-        Text {
-          width: parent.width
-          horizontalAlignment: Text.AlignHCenter
-          text: slider.liveValue + "px"
-          color: root.bar.foreground
-          font.family: root.bar.fontFamily
-          font.pixelSize: Style.font.bodySmall
-        }
+          Button {
+            id: minusButton
+            width: Style.space(30)
+            text: "−"
+            fontSize: Style.font.title
+            foreground: root.bar.foreground
+            fontFamily: root.bar.fontFamily
+            bordered: true
+            onClicked: if (root.hostWidget) root.hostWidget.apply(root.currentSize - 1)
+          }
 
-        PanelSeparator { foreground: root.bar.foreground }
+          PanelSlider {
+            id: slider
+            bar: root.bar
+            width: parent.sliderWidth
+            anchors.verticalCenter: parent.verticalCenter
+            integer: true
+            minimum: root.minSize
+            maximum: root.maxSize
+            step: 1
+            value: root.currentSize
+            onReleased: function(v) { if (root.hostWidget) root.hostWidget.apply(v) }
+          }
 
-        Button {
-          width: parent.width
-          text: "Reset to default"
-          fontSize: Style.font.bodySmall
-          foreground: root.bar.foreground
-          fontFamily: root.bar.fontFamily
-          bordered: true
-          onClicked: if (root.bar) root.bar.run("omarchy display text size reset")
+          Button {
+            id: plusButton
+            width: Style.space(30)
+            text: "+"
+            fontSize: Style.font.title
+            foreground: root.bar.foreground
+            fontFamily: root.bar.fontFamily
+            bordered: true
+            onClicked: if (root.hostWidget) root.hostWidget.apply(root.currentSize + 1)
+          }
         }
       }
     }
