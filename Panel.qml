@@ -2,9 +2,10 @@ import QtQuick
 import qs.Commons
 import qs.Ui
 
-// Click-target popup for Bar Dial: a slider covering the same range the bar
-// widget's scroll gesture uses, plus a reset button. No IPC/hotkey summon —
-// this is a click-only convenience panel, so manageIpc stays off.
+// Click-target popup for Universal Font Sizer: a slider covering the same
+// range the bar widget's scroll gesture uses, plus a reset button. No
+// IPC/hotkey summon — this is a click-only convenience panel, so manageIpc
+// stays off.
 Panel {
   id: root
   moduleName: "io.github.ukkit.bar-dial"
@@ -29,7 +30,7 @@ Panel {
     bar: root.bar
     open: root.opened
     focusTarget: keyCatcher
-    contentWidth: panel.fittedContentWidth(Style.space(280))
+    contentWidth: panel.fittedContentWidth(Style.space(300))
     contentHeight: panel.fittedContentHeight(content.implicitHeight)
 
     PanelKeyCatcher {
@@ -50,7 +51,7 @@ Panel {
           spacing: Style.space(8)
 
           Text {
-            text: "Aa"
+            text: "🌐"
             color: root.bar.foreground
             font.family: root.bar.fontFamily
             font.pixelSize: Style.font.title
@@ -58,7 +59,7 @@ Panel {
 
           Text {
             anchors.verticalCenter: parent.verticalCenter
-            text: "Bar Dial"
+            text: "Universal Font Sizer"
             color: root.bar.foreground
             font.family: root.bar.fontFamily
             font.pixelSize: Style.font.title
@@ -81,13 +82,17 @@ Panel {
 
             Text {
               id: sizeLabel
-              text: "TEXT SIZE"
+              text: "BASE FONT"
               color: Qt.darker(root.bar.foreground, 1.4)
               font.family: root.bar.fontFamily
               font.pixelSize: Style.font.caption
             }
 
             Text {
+              // Baseline-locked to sizeLabel rather than center-anchored, so
+              // the two differently-sized labels sit on the same text line
+              // instead of just sharing a bounding-box center.
+              anchors.baseline: sizeLabel.baseline
               text: slider.liveValue + "px"
               color: root.bar.foreground
               font.family: root.bar.fontFamily
@@ -116,7 +121,9 @@ Panel {
 
           Button {
             id: minusButton
-            width: Style.space(30)
+            width: Style.space(26)
+            horizontalPadding: Style.space(4)
+            verticalPadding: Style.space(2)
             text: "−"
             fontSize: Style.font.title
             foreground: root.bar.foreground
@@ -140,13 +147,66 @@ Panel {
 
           Button {
             id: plusButton
-            width: Style.space(30)
+            width: Style.space(26)
+            horizontalPadding: Style.space(4)
+            verticalPadding: Style.space(2)
             text: "+"
             fontSize: Style.font.title
             foreground: root.bar.foreground
             fontFamily: root.bar.fontFamily
             bordered: true
             onClicked: if (root.hostWidget) root.hostWidget.apply(root.currentSize + 1)
+          }
+        }
+
+        PanelSeparator { foreground: root.bar.foreground }
+
+        // Live preview: three sample sizes scaled by the same multipliers
+        // Style.qml uses for its real typography tokens (caption/body/
+        // heading), so dragging the slider shows exactly how the rest of
+        // the shell's text will move — not just this one number.
+        Column {
+          width: parent.width
+          spacing: Style.space(6)
+
+          Text {
+            text: "PREVIEW"
+            color: Qt.darker(root.bar.foreground, 1.4)
+            font.family: root.bar.fontFamily
+            font.pixelSize: Style.font.caption
+          }
+
+          Row {
+            spacing: Style.space(18)
+
+            Repeater {
+              model: [
+                { label: "caption", mult: 0.833 },
+                { label: "body", mult: 1.0 },
+                { label: "heading", mult: 1.333 }
+              ]
+
+              Column {
+                required property var modelData
+                spacing: Style.space(2)
+
+                Text {
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  text: "Aa"
+                  color: root.bar.foreground
+                  font.family: root.bar.fontFamily
+                  font.pixelSize: Math.max(1, Math.round(slider.liveValue * modelData.mult))
+                }
+
+                Text {
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  text: modelData.label
+                  color: Qt.darker(root.bar.foreground, 1.4)
+                  font.family: root.bar.fontFamily
+                  font.pixelSize: Style.font.caption
+                }
+              }
+            }
           }
         }
       }
