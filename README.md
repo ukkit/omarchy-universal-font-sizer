@@ -1,19 +1,18 @@
 # Universal Font Sizer
 
-Scroll the Omarchy bar to resize your shell, GTK, and terminal text — on the
-fly. Click for a slider, a live preview, and a one-click reset.
+Click the Omarchy bar to resize your shell, GTK, and terminal text — with a
+slider, +/− steppers, a live preview, and a one-click reset.
 
 ![Universal Font Sizer panel: a slider from 8-32px with +/- steppers, and a live preview showing caption/body/heading sizes](preview.png)
 
 ## What it does
 
-- Scroll up/down on the **🌐** indicator in your bar to step the base font
-  size by 1px at a time. Since every other size in the shell (titles,
-  captions, icons, bar height) scales off that one base value, this one
-  gesture resizes everything at once — hence "universal."
-- Click it to open a small panel with a slider (8–32px), +/− steppers, a
-  live preview of a few representative sizes, and a **Reset to default**
-  button.
+- Click the **🌐** indicator in your bar to open a small panel: a slider
+  (8–32px), +/− steppers for single-px nudges, a live preview of a few
+  representative sizes, and a **Reset to default** button.
+- Since every other size in the shell (titles, captions, icons, bar height)
+  scales off that one base value, moving it resizes everything at once —
+  hence "universal."
 - The displayed size is read live from the Omarchy shell itself, so it always
   matches reality. Changes are applied through the official
   `omarchy display text size` command, which scales GTK apps and terminal

@@ -5,14 +5,14 @@
   "version": "0.1.0",
   "author": "ukkit",
   "license": "MIT",
-  "description": "Scroll the bar to resize shell, GTK, and terminal text on the fly. Click for a slider and reset.",
+  "description": "Click the bar to resize shell, GTK, and terminal text with a slider, steppers, live preview, and reset.",
   "kinds": ["bar-widget"],
   "entryPoints": {
     "barWidget": "BarWidget.qml"
   },
   "barWidget": {
     "displayName": "Universal Font Sizer",
-    "description": "Scroll to resize text everywhere; click for a slider and reset.",
+    "description": "Click for a slider, steppers, live preview, and reset — resizes text everywhere.",
     "category": "Appearance",
     "allowMultiple": false,
     "defaultSection": "right"

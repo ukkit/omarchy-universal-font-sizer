@@ -2,8 +2,9 @@ import QtQuick
 import qs.Commons
 import qs.Ui
 
-// Universal Font Sizer — scroll the bar widget to resize shell/GTK/terminal
-// text on the fly; click opens a panel with a slider and a reset button.
+// Universal Font Sizer — click the bar widget to open a panel with a
+// slider, +/- steppers, a live preview, and a reset button, to resize
+// shell/GTK/terminal text on the fly.
 //
 // Reads are free: the displayed size is bound straight to the shell's own
 // Style.font.baseSize, which already tracks ~/.config/omarchy/shell.toml's
@@ -82,7 +83,7 @@ BarWidget {
     anchors.fill: parent
     bar: root.bar
     text: "🌐"
-    tooltipText: "Base font: " + root.displaySize + "px · scroll to adjust, click for more"
+    tooltipText: "Base font: " + root.displaySize + "px · click to adjust"
     onPressed: function(b) { root.toggle() }
     onWheelMoved: function(delta) { root.nudge(delta > 0 ? 1 : -1) }
   }
