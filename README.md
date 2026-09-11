@@ -26,20 +26,20 @@ already installed on the system.
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/ukkit/omarchy-bar-dial --enable
+omarchy plugin add https://github.com/ukkit/omarchy-universal-font-sizer --enable
 ```
 
 Or manually:
 
 ```bash
-git clone https://github.com/ukkit/omarchy-bar-dial ~/.config/omarchy/plugins/io.github.ukkit.bar-dial
-omarchy plugin enable io.github.ukkit.bar-dial
+git clone https://github.com/ukkit/omarchy-universal-font-sizer ~/.config/omarchy/plugins/io.github.ukkit.universal-font-sizer
+omarchy plugin enable io.github.ukkit.universal-font-sizer
 ```
 
 ## Remove
 
 ```bash
-omarchy plugin remove io.github.ukkit.bar-dial
+omarchy plugin remove io.github.ukkit.universal-font-sizer
 ```
 
 ## License

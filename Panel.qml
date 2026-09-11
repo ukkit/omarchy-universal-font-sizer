@@ -8,7 +8,7 @@ import qs.Ui
 // stays off.
 Panel {
   id: root
-  moduleName: "io.github.ukkit.bar-dial"
+  moduleName: "io.github.ukkit.universal-font-sizer"
   manageIpc: false
 
   property var anchorItem: null

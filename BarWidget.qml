@@ -15,7 +15,7 @@ import qs.Ui
 // further than just this bar.
 BarWidget {
   id: root
-  moduleName: "io.github.ukkit.bar-dial"
+  moduleName: "io.github.ukkit.universal-font-sizer"
 
   readonly property int minSize: 8
   readonly property int maxSize: 32
