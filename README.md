@@ -3,6 +3,8 @@
 Scroll the Omarchy bar to resize your shell, GTK, and terminal text — on the
 fly. Click for a slider, a live preview, and a one-click reset.
 
+![Universal Font Sizer panel: a slider from 8-32px with +/- steppers, and a live preview showing caption/body/heading sizes](preview.png)
+
 ## What it does
 
 - Scroll up/down on the **🌐** indicator in your bar to step the base font
