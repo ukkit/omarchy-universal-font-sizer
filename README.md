@@ -23,6 +23,14 @@ fly. Click for a slider, a live preview, and a one-click reset.
 `PATH`. No other dependencies — this plugin only shells out to a command
 already installed on the system.
 
+## Privilege boundary
+
+Runs with your normal user permissions, same as the shell itself — no sudo,
+no elevated capabilities. The only command it ever runs is
+`omarchy display text size [<value>|reset]`. No network access, no files
+read or written beyond what that command itself does, no data collected or
+sent anywhere.
+
 ## Install
 
 ```bash
