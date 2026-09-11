@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.ukkit.bar-dial",
+  "name": "Bar Dial",
+  "version": "0.1.0",
+  "author": "ukkit",
+  "license": "MIT",
+  "description": "Scroll the bar to resize shell, GTK, and terminal text on the fly. Click for a slider and reset.",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Bar Dial",
+    "description": "Scroll to resize text everywhere; click for a slider and reset.",
+    "category": "Appearance",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
