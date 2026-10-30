@@ -44,8 +44,9 @@ numbers inside the ranges shown in the panel. `get` prints machine-readable
 
 ## Privilege boundary
 
-Runs with your normal user permissions, same as the shell itself — no sudo,
-no elevated capabilities. It runs only `scripts/font-size-ctl`, which writes:
+Runs with your normal user permissions, same as the shell itself, and does
+not request elevated capabilities. It runs only `scripts/font-size-ctl`,
+which writes:
 
 - `~/.config/omarchy/shell.toml` (`[font] base-size`)
 - GTK `org.gnome.desktop.interface` `text-scaling-factor` (via `gsettings`)
@@ -53,19 +54,12 @@ no elevated capabilities. It runs only `scripts/font-size-ctl`, which writes:
   terminal a reload signal (`pkill -USR1 kitty`, `pkill -SIGUSR2 ghostty`) or
   a desktop notification (foot)
 
-No network access, no sudo, and no data collected or sent anywhere.
+The plugin makes no network requests and collects or sends no data.
 
 ## Install
 
 ```bash
 omarchy plugin add https://github.com/ukkit/omarchy-universal-font-sizer --enable
-```
-
-Or manually:
-
-```bash
-git clone https://github.com/ukkit/omarchy-universal-font-sizer ~/.config/omarchy/plugins/io.github.ukkit.universal-font-sizer
-omarchy plugin enable io.github.ukkit.universal-font-sizer
 ```
 
 ## Local development
