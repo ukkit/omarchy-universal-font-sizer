@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "id": "io.github.ukkit.universal-font-sizer",
   "name": "Universal Font Sizer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "ukkit",
   "license": "MIT",
-  "description": "Click the bar to resize shell, GTK, and terminal text with a slider, steppers, live preview, and reset.",
+  "description": "Resize shell, GTK, and terminal text independently with sliders, steppers, a live preview, and reset controls.",
   "kinds": ["bar-widget"],
   "entryPoints": {
     "barWidget": "BarWidget.qml"
   },
   "barWidget": {
     "displayName": "Universal Font Sizer",
-    "description": "Click for a slider, steppers, live preview, and reset — resizes text everywhere.",
+    "description": "Adjust shell, GTK, and terminal font sizes independently from the bar.",
     "category": "Appearance",
     "allowMultiple": false,
     "defaultSection": "right"
