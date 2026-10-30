@@ -1,36 +1,59 @@
 # Universal Font Sizer
 
-Click the Omarchy bar to resize your shell, GTK, and terminal text — with a
-slider, +/− steppers, a live preview, and a one-click reset.
+Resize Omarchy shell, GTK, and terminal text independently from one bar
+widget, with sliders, +/− steppers, live values, and reset controls.
 
-![Universal Font Sizer panel: a slider from 8-32px with +/- steppers, and a live preview showing caption/body/heading sizes](preview.png)
+![Universal Font Sizer panel with font-size controls and a shell typography preview](preview.png)
 
 ## What it does
 
-- Click the **🌐** indicator in your bar to open a small panel: a slider
-  (8–32px), +/− steppers for single-px nudges, a live preview of a few
-  representative sizes, and a **Reset to default** button.
-- Since every other size in the shell (titles, captions, icons, bar height)
-  scales off that one base value, moving it resizes everything at once —
-  hence "universal."
-- The displayed size is read live from the Omarchy shell itself, so it always
-  matches reality. Changes are applied through the official
-  `omarchy display text size` command, which scales GTK apps and terminal
-  fonts along with the shell — not just the bar.
+- Click the **🌐** indicator in your bar to open a panel with three
+  independent controls, each with its own slider, +/− steppers and reset:
+  - **Shell** base size (8–32px). Every other shell size (titles, captions,
+    icons, bar height) scales off this value, so it resizes the bar and
+    panels together.
+  - **GTK** interface font (6–30pt), set as `text-scaling-factor`.
+  - **Terminal** font (6–24pt) for alacritty, kitty, ghostty or foot.
+- A live preview shows caption/body/heading sizes for the shell value.
+- Each target can be reset independently; **Reset all** restores every
+  target to its default.
+- Current values are read from the system on open, so the panel always
+  matches reality.
+- Scrolling over the indicator nudges the shell size.
+
+## Helper script
+
+All writes go through `scripts/font-size-ctl`, which can also be used from a
+terminal:
+
+```bash
+scripts/font-size-ctl get
+scripts/font-size-ctl set --shell 14 --gtk 12 --term 10
+scripts/font-size-ctl reset [shell|gtk|term|all]
+```
+
+`set` accepts one or more targets in the same command. Values must be whole
+numbers inside the ranges shown in the panel. `get` prints machine-readable
+`key=value` lines used by the widget to refresh its state.
 
 ## Requirements
 
-[Omarchy](https://omarchy.org/) (Quattro shell) with the `omarchy` CLI on
-`PATH`. No other dependencies — this plugin only shells out to a command
-already installed on the system.
+[Omarchy](https://omarchy.org/) with the Quattro shell and `omarchy` CLI on
+`PATH`. The helper uses standard utilities shipped with Omarchy, including
+`gsettings`, `awk`, `sed`, and `grep`.
 
 ## Privilege boundary
 
 Runs with your normal user permissions, same as the shell itself — no sudo,
-no elevated capabilities. The only command it ever runs is
-`omarchy display text size [<value>|reset]`. No network access, no files
-read or written beyond what that command itself does, no data collected or
-sent anywhere.
+no elevated capabilities. It runs only `scripts/font-size-ctl`, which writes:
+
+- `~/.config/omarchy/shell.toml` (`[font] base-size`)
+- GTK `org.gnome.desktop.interface` `text-scaling-factor` (via `gsettings`)
+- the terminal config for alacritty, kitty, ghostty or foot, then sends that
+  terminal a reload signal (`pkill -USR1 kitty`, `pkill -SIGUSR2 ghostty`) or
+  a desktop notification (foot)
+
+No network access, no sudo, and no data collected or sent anywhere.
 
 ## Install
 
@@ -43,6 +66,22 @@ Or manually:
 ```bash
 git clone https://github.com/ukkit/omarchy-universal-font-sizer ~/.config/omarchy/plugins/io.github.ukkit.universal-font-sizer
 omarchy plugin enable io.github.ukkit.universal-font-sizer
+```
+
+## Local development
+
+Files under `~/.config/omarchy/plugins/` normally hot-reload when saved. To
+force a clean reload and validate the plugin after making changes:
+
+```bash
+omarchy restart shell
+omarchy plugin validate ~/.config/omarchy/plugins/io.github.ukkit.universal-font-sizer
+```
+
+The helper can be syntax-checked separately:
+
+```bash
+bash -n scripts/font-size-ctl
 ```
 
 ## Remove
